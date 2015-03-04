@@ -31,4 +31,10 @@ class SolutionsTest extends WordSpec with Matchers {
       check(1 until 10)(40 / _ > 0) shouldBe true
     }
   }
+
+  "permutations" should {
+    "work correctly" in {
+      permutations("abc").size shouldBe 6
+    }
+  }
 }

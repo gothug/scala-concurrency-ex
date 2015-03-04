@@ -45,16 +45,35 @@ object Solutions {
   }
 
   def permutations2(x: String): Seq[String] = {
-    def loop(xs: List[Char]): List[List[Char]] = {
-      if (xs.isEmpty) List(List())
+    type Chars = Vector[Char]
+
+    def loop(combs: Vector[(Chars, Chars)]): Vector[Chars] = {
+      val acc: Vector[(Chars, Chars)] =
+        for {
+          (c1, c2) <- combs
+          c <- c2
+        } yield (c1 :+ c, c2 filter (_ != c))
+
+      acc.head._2 match {
+        case IndexedSeq() => acc.map(_._1)
+        case _            => loop(acc)
+      }
+    }
+
+    (loop(Vector((Vector(), x.toVector))) map { _.mkString }).toSeq
+  }
+
+  def permutations3(x: String): Seq[String] = {
+    def loop(xs: Stream[Char]): Stream[Stream[Char]] = {
+      if (xs.isEmpty) Stream(Stream())
       else {
         for {
           e <- xs
           es <- loop(xs filter (_ != e))
-        } yield e :: es
+        } yield Stream.cons(e, es)
       }
     }
 
-    (loop(x.toList) map { _.mkString }).toSeq
+    (loop(x.toStream) map { _.mkString }).toSeq
   }
 }
