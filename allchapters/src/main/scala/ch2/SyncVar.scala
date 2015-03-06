@@ -10,6 +10,35 @@ class SyncVar[T] {
 
   val lock = new AnyRef
 
+  val lockPut = new AnyRef
+  val lockGet = new AnyRef
+
+  def getWait: T = {
+    lockGet.synchronized {
+//      println("getWait got lock..")
+      while (isEmpty) lockGet.wait()
+
+      val t = value.get
+      value = None
+
+      lockPut.notify()
+//      println(s"getWait got value: $t")
+      t
+    }
+  }
+
+  def putWait(x: T)(n: Int): Unit = {
+    lockPut.synchronized {
+//      println(s"putWait($n) got lock..")
+      while (nonEmpty) lockPut.wait()
+
+      value = Some(x)
+
+      lockGet.notify()
+//      println(s"putWait($n) put value: $x")
+    }
+  }
+
   def get: T = {
     lock.synchronized {
       getVal
@@ -23,6 +52,17 @@ class SyncVar[T] {
   }
 
   def isEmpty: Boolean = {
+    value match {
+      case Some(_) => false
+      case _       => true
+    }
+  }
+
+  def nonEmpty: Boolean = {
+    !isEmpty
+  }
+
+  def isEmptySync: Boolean = {
     lock.synchronized {
       value match {
         case Some(_) => false
@@ -31,8 +71,8 @@ class SyncVar[T] {
     }
   }
 
-  def nonEmpty: Boolean = {
-    !isEmpty
+  def nonEmptySync: Boolean = {
+    !isEmptySync
   }
 
   private def getVal: T = value match {
@@ -52,7 +92,8 @@ class SyncVar[T] {
 }
 
 object SyncVar extends App {
-  numbersTranferEx4()
+//  numbersTranferEx4()
+  numbersTranferEx5()
 
   def numbersTranferEx4() = {
     val store = new SyncVar[Int]
@@ -89,6 +130,40 @@ object SyncVar extends App {
     }
 
     producer.join()
+    consumer.join()
+  }
+
+  def numbersTranferEx5() = {
+    val store = new SyncVar[Int]
+
+    val producer1 = thread {
+      for (i <- 0 until 10) {
+        store.putWait(i)(1)
+      }
+    }
+
+//    val producer2 = thread {
+//      for (i <- 10 until 20) {
+//        store.putWait(i)(2)
+//      }
+//    }
+
+    val consumer = thread {
+      def consume(cnt: Int): Unit = {
+        val i = store.getWait
+
+        println(i)
+
+        if (cnt < 10) {
+          consume(cnt + 1)
+        }
+      }
+
+      consume(1)
+    }
+
+    producer1.join()
+//    producer2.join()
     consumer.join()
   }
 }
