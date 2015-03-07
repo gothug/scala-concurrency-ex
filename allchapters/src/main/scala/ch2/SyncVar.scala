@@ -14,28 +14,24 @@ class SyncVar[T] {
   val lockGet = new AnyRef
 
   def getWait: T = {
-    lockGet.synchronized {
-//      println("getWait got lock..")
-      while (isEmpty) lockGet.wait()
+    lock.synchronized {
+      while (isEmpty) lock.wait()
 
       val t = value.get
       value = None
 
-      lockPut.notify()
-//      println(s"getWait got value: $t")
+      lock.notifyAll()
       t
     }
   }
 
   def putWait(x: T)(n: Int): Unit = {
-    lockPut.synchronized {
-//      println(s"putWait($n) got lock..")
-      while (nonEmpty) lockPut.wait()
+    lock.synchronized {
+      while (nonEmpty) lock.wait()
 
       value = Some(x)
 
-      lockGet.notify()
-//      println(s"putWait($n) put value: $x")
+      lock.notifyAll()
     }
   }
 
@@ -93,7 +89,11 @@ class SyncVar[T] {
 
 object SyncVar extends App {
 //  numbersTranferEx4()
-  numbersTranferEx5()
+  for (i <- 1 until 1000) {
+    println(s"$i:\n")
+    numbersTranferEx5()
+    println("\n")
+  }
 
   def numbersTranferEx4() = {
     val store = new SyncVar[Int]
@@ -136,25 +136,25 @@ object SyncVar extends App {
   def numbersTranferEx5() = {
     val store = new SyncVar[Int]
 
-    val producer1 = thread {
+    val producer1 = thread("Producer-1") {
       for (i <- 0 until 10) {
         store.putWait(i)(1)
       }
     }
 
-//    val producer2 = thread {
-//      for (i <- 10 until 20) {
-//        store.putWait(i)(2)
-//      }
-//    }
+    val producer2 = thread("Producer-2") {
+      for (i <- 10 until 20) {
+        store.putWait(i)(2)
+      }
+    }
 
-    val consumer = thread {
+    val consumer = thread("Consumer-1") {
       def consume(cnt: Int): Unit = {
         val i = store.getWait
 
         println(i)
 
-        if (cnt < 10) {
+        if (cnt < 20) {
           consume(cnt + 1)
         }
       }
@@ -163,7 +163,7 @@ object SyncVar extends App {
     }
 
     producer1.join()
-//    producer2.join()
+    producer2.join()
     consumer.join()
   }
 }
