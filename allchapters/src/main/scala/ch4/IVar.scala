@@ -4,9 +4,8 @@ import scala.concurrent.Promise
 import scala.util.Success
 
 /**
- * @author Vasily Kozhukhovskiy <vn.kozhukhovskiy@jet.msk.su>
+ * @author Got Hug
  */
-
 //Ex 2
 class IVar[T] {
   var s: Option[T] = None

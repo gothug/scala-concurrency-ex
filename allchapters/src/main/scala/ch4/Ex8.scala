@@ -5,7 +5,7 @@ import scala.util.{Failure, Success}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
- * @author Vasily Kozhukhovskiy <vn.kozhukhovskiy@jet.msk.su>
+ * @author Got Hug
  */
 object Ex8 {
   implicit class PromiseOps[T](val self: Promise[T]) {

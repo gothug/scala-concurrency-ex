@@ -4,7 +4,7 @@ import scala.concurrent.{Promise, Future}
 import scala.collection.concurrent._
 
 /**
- * @author Vasily Kozhukhovskiy <vn.kozhukhovskiy@jet.msk.su>
+ * @author Got Hug
  */
 object Ex7 {
   class IMap[K, V] {

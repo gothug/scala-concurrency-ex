@@ -5,7 +5,7 @@ import scala.sys.process._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
- * @author Vasily Kozhukhovskiy <vn.kozhukhovskiy@jet.msk.su>
+ * @author Got Hug
  */
 object Ex6 {
   def spawn(command: String): Future[Int] = Future {

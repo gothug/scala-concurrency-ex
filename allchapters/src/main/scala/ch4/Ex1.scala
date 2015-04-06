@@ -8,7 +8,7 @@ import scala.io.Source
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
- * @author Vasily Kozhukhovskiy <vn.kozhukhovskiy@jet.msk.su>
+ * @author Got Hug
  */
 object Ex1 extends App {
   implicit class FutureOps[T](val self: Future[T]) {

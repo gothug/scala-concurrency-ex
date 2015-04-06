@@ -3,7 +3,7 @@ package ch4
 import scala.concurrent.Future
 
 /**
- * @author Vasily Kozhukhovskiy <vn.kozhukhovskiy@jet.msk.su>
+ * @author Got Hug
  */
 object SandBox extends App {
   import scala.concurrent.ExecutionContext.Implicits.global
