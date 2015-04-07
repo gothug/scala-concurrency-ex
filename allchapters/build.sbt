@@ -7,5 +7,6 @@ scalaVersion := "2.11.5"
 fork := true
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "2+" % "test"
+  "org.scalatest" %% "scalatest" % "2+" % "test",
+  "com.netflix.rxjava" % "rxjava-scala" % "0.19.1"
 )
