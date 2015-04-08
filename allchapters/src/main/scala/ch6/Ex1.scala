@@ -11,10 +11,6 @@ object Ex1 extends App {
   def log(msg: String): Unit =
     println(s"${Thread.currentThread.getName}: $msg")
 
-//  val o = Observable.items("Pascal", "Java", "Scala")
-//  o.subscribe(name => log(s"learned the $name language"))
-//  o.subscribe(name => log(s"forgot the $name language"))
-
   @volatile var s = 0
 
   val monitor = Observable.create[Int] {
