@@ -1,6 +1,7 @@
 package ch6
 
 import rx.lang.scala.Observable
+
 import scala.concurrent.duration._
 
 /**
