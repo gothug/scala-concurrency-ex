@@ -19,10 +19,7 @@ object Ex3 extends App {
     Subscription()
   }
 
-//  randomQuote.repeat(10).subscribe(x => log(s"${x.length}: $x"))
-
-  randomQuote.repeat(10).scan(0) {
-    (n, q) => n + q.length
+  randomQuote.repeat(10).scan(0.0) {
+    (n, q) => (n + q.length) / 2
   } subscribe(x => log(x.toString))
-//  Thread.sleep(10000)
 }
