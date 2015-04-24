@@ -3,7 +3,7 @@ package ch6
 import rx.lang.scala.{Subscription, Observable}
 
 /**
- * @author Vasily Kozhukhovskiy <vn.kozhukhovskiy@jet.msk.su>
+ * @author Got Hug
  */
 object Ex4 extends App {
   def log(msg: String): Unit =

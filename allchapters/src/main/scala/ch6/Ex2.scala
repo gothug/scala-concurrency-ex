@@ -5,7 +5,7 @@ import rx.lang.scala.Observable
 import scala.concurrent.duration._
 
 /**
- * @author Vasily Kozhukhovskiy <vn.kozhukhovskiy@jet.msk.su>
+ * @author Got Hug
  */
 object Ex2 extends App {
   def log(msg: String): Unit =

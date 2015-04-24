@@ -9,5 +9,6 @@ fork := true
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2+" % "test",
   "com.netflix.rxjava" % "rxjava-scala" % "0.19.1",
-  "org.scala-lang.modules" %% "scala-swing" % "1.0.1"
+  "org.scala-lang.modules" %% "scala-swing" % "1.0.1",
+  "com.typesafe.akka" %% "akka-actor" % "2.3+"
 )
